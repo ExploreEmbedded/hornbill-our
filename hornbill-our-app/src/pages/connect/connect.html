@@ -1,0 +1,29 @@
+<!--
+  Generated template for the Connect page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>connect</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-card *ngFor="let device of devices" (click) = "selectDevice(device.id)" >
+    <ion-card-header>
+      <ion-icon name="bluetooth" item-left> </ion-icon>
+      {{ device.name }}
+    </ion-card-header>
+
+    <ion-card-content>
+      <p><small> ID:{{ device.id   }}   </small> </p>
+      <p><small> RSSI:{{ device.rssi }}db </small></p>
+    </ion-card-content>
+  </ion-card>
+  <button padding ion-button (click)="onClose()">Close </button>
+</ion-content>

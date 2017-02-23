@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Hornbill OUR <br>
+      <small>Open Universal Remote</small>
+    </ion-title>
+
+    <ion-buttons end padding>
+      <button ion-button icon-only (click)="connectOur()">
+        <ion-toggle checked="{{connectStatus}}"></ion-toggle>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+<!-- Select Remote -->
+
+<ion-list>
+  <ion-item *ngFor = "let remote of remotesList" (click) = "selectDevice(remote.id)">
+    <ion-icon name="{{remote.icon}}" item-left></ion-icon>
+      {{remote.name}}
+    <ion-icon name="ios-arrow-forward" item-right></ion-icon>
+  </ion-item>
+</ion-list>
+
+<!--
+<button ion-button (click) ="addRemote()"> Add </button>
+<button ion-button (click) ="delRemote()"> Remove </button>
+-->
+
+</ion-content>

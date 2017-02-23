@@ -1,0 +1,159 @@
+<!--
+  Generated template for the Tv page.
+
+  See http://ionicframework.com/docs/v2/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>
+      <ion-icon name="{{tvData.icon}}"> </ion-icon>
+      {{tvData.name}}
+      <br>
+      <small>
+        Hornbill OUR
+      </small>
+    </ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+<ion-grid>
+  <!--Top Row -->
+  <ion-row>
+    <ion-col ion-button icon-only width-33 color="danger" (click)="tvKey('power')">
+       <ion-icon name="power"></ion-icon>
+     </ion-col>
+
+    <ion-col ion-button icon-only offset-33 width-33 color="success" (click)="tvKey('mute')">
+      <ion-icon name="volume-mute"></ion-icon>
+    </ion-col>
+  </ion-row>
+
+</ion-grid>
+
+
+
+  <!-- Vol, channel, src, display -->
+  <ion-grid padding>
+      <ion-row>
+        <ion-col ion-button icon-only width-25 offset-25 clear (click)="tvKey('vol+')">
+           <ion-icon name="add-circle"></ion-icon>
+         </ion-col>
+
+        <ion-col ion-button icon-only  width-25 clear (click)="tvKey('ch+')">
+          <ion-icon name="add-circle"></ion-icon>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+
+        <ion-col ion-button   width-25 color = "light" (click)="tvKey('src')">
+          Source
+        </ion-col>
+
+        <ion-col ion-button clear width-25>
+            VOL
+        </ion-col>
+
+        <ion-col ion-button clear width-25>
+            CHA
+        </ion-col>
+
+        <ion-col ion-button  width-25 color = "light" (click)="tvKey('display')">
+          Display
+        </ion-col>
+
+      </ion-row>
+
+      <ion-row>
+        <ion-col ion-button icon-only width-25 offset-25 clear (click)="tvKey('vol-')">
+           <ion-icon name="remove-circle"></ion-icon>
+         </ion-col>
+
+        <ion-col ion-button icon-only  width-25 clear (click)="tvKey('ch-')">
+          <ion-icon name="remove-circle"></ion-icon>
+        </ion-col>
+      </ion-row>
+
+  </ion-grid>
+
+
+  <!--Number Keys -->
+  <br>
+  <div padding>
+    <button ion-button outline icon-only (click) = "numPad=!numPad">
+      <ion-icon name="keypad"></ion-icon>
+    </button>
+  </div>
+  <ion-grid *ngIf="numPad">
+
+  <ion-row>
+    <ion-col ion-button width-33 color="light"  round (click)="tvKey('1')" > 1 </ion-col>
+    <ion-col ion-button width-33 color="light"  round (click)="tvKey('2')" > 2 </ion-col>
+    <ion-col ion-button width-33 color="light"  round (click)="tvKey('3')" > 3 </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col ion-button width-33 color="light"  round (click)="tvKey('4')" > 4 </ion-col>
+    <ion-col ion-button width-33 color="light"  round (click)="tvKey('5')" > 5 </ion-col>
+    <ion-col ion-button width-33 color="light"  round (click)="tvKey('6')" > 6 </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col ion-button width-33 color="light" (click)="tvKey('7')" round > 7 </ion-col>
+    <ion-col ion-button width-33 color="light" (click)="tvKey('8')" round > 8 </ion-col>
+    <ion-col ion-button width-33 color="light" (click)="tvKey('9')" round > 9 </ion-col>
+  </ion-row>
+
+  <ion-row>
+    <ion-col ion-button width-33 color="light"  round (click)="tvKey('11')" >-/--</ion-col>
+    <ion-col ion-button width-33 color="light"  round (click)="tvKey('0')" > 0   </ion-col>
+    <ion-col ion-button width-33 color="light"  round (click)="tvKey('12')" >    </ion-col>
+  </ion-row>
+
+  </ion-grid>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col width-20>
+      </ion-col>
+      <ion-col width-20>
+      </ion-col>
+
+      <ion-col ion-button round icon-only  width-20 color = "light" (click)="tvKey('up')">
+        <ion-icon name = "arrow-dropup-circle" > </ion-icon>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col ion-button round icon-only  color = "light" width-20 offset-20 (click)="tvKey('left')">
+        <ion-icon name = "arrow-dropleft-circle" > </ion-icon>
+      </ion-col>
+
+      <ion-col ion-button  clear color="secondary"  width-20 (click)="tvKey('ok')">
+        OK
+      </ion-col>
+
+      <ion-col ion-button round icon-only  width-20 color = "light" (click)="tvKey('right')">
+        <ion-icon name = "arrow-dropright-circle" > </ion-icon>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col width-20>
+      </ion-col>
+      <ion-col width-20>
+      </ion-col>
+
+      <ion-col ion-button round icon-only  width-20 color = "light" (click)="tvKey('down')">
+        <ion-icon name = "arrow-dropdown-circle" > </ion-icon>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>
