@@ -14,5 +14,141 @@
 
 
 <ion-content padding>
+  <ion-grid>
+    <!--Top Row -->
+    <ion-row>
+      <ion-col ion-button icon-only width-33 color="light" (click)="dthKey('home')">
+         <ion-icon name="home"></ion-icon>
+       </ion-col>
 
+      <ion-col ion-button icon-only  width-33 color="light" (click)="dthKey('tv')">
+        <ion-icon name="desktop"></ion-icon>
+      </ion-col>
+
+      <ion-col ion-button icon-only  width-33 color="danger" (click)="dthKey('power')">
+        <ion-icon name="power"></ion-icon>
+      </ion-col>
+
+    </ion-row>
+    <br>
+
+    <ion-row>
+      <ion-col ion-button round  offset-25 width-25 color = "light" (click)="dthKey('showcase')">
+        showcase
+      </ion-col>
+      <ion-col ion-button round width-25 color = "light" (click)="dthKey('organizer')">
+        organizer
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col ion-button round width-25 color = "light" (click)="dthKey('guide')">
+        guide
+      </ion-col>
+      <ion-col ion-button round offset-50 width-25 color = "light" (click)="dthKey('active')">
+        active
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col ion-button round offset-20 width-20 color = "light" (click)="dthKey('mute')">
+        mute
+      </ion-col>
+      <ion-col ion-button round  offset-20 width-20 color = "light" (click)="dthKey('info')">
+        info
+      </ion-col>
+    </ion-row>
+    <br>
+    <br>
+
+    <ion-row>
+      <ion-col ion-button icon-only  width-20 color = "secondary" (click)="dthKey('vol+')">
+        <ion-icon name = "add-circle" > </ion-icon>
+      </ion-col>
+      <ion-col ion-button round icon-only offset-20 width-20 color = "light" (click)="dthKey('up')">
+        <ion-icon name = "arrow-dropup-circle" > </ion-icon>
+      </ion-col>
+      <ion-col ion-button icon-only offset-20 width-20 color = "secondary" (click)="dthKey('ch+')">
+        <ion-icon name = "remove-circle" > </ion-icon>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col ion-button    width-20 clear >
+        vol
+      </ion-col>
+      <ion-col ion-button round icon-only width-20 color = "light" (click)="dthKey('left')">
+        <ion-icon name = "arrow-dropleft-circle" > </ion-icon>
+      </ion-col>
+
+      <ion-col ion-button round icon-only width-20 color = "light" (click)="dthKey('select')">
+        <ion-icon name = "checkmark-circle-outline" > </ion-icon>
+      </ion-col>
+
+      <ion-col ion-button round icon-only width-20 color = "light" (click)="dthKey('right')">
+        <ion-icon name = "arrow-dropright-circle" > </ion-icon>
+      </ion-col>
+      <ion-col ion-button clear  width-20  >
+        chan
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col ion-button icon-only  width-20 color = "secondary" (click)="dthKey('vol-')">
+        <ion-icon name = "add-circle" > </ion-icon>
+      </ion-col>
+      <ion-col ion-button round icon-only offset-20 width-20 color = "light" (click)="dthKey('down')">
+        <ion-icon name = "arrow-dropdown-circle" > </ion-icon>
+      </ion-col>
+      <ion-col ion-button icon-only offset-20 width-20 color = "secondary" (click)="dthKey('ch-')">
+        <ion-icon name = "remove-circle" > </ion-icon>
+      </ion-col>
+    </ion-row>
+
+    <br>
+    <ion-row>
+      <ion-col ion-button icon-only width-20 color="light" (click)="dthKey('favorite')">
+        fav
+      </ion-col>
+      <ion-col ion-button icon-only offset-20 width-20 color="light" (click)="dthKey('back')">
+        back
+      </ion-col>
+      <ion-col ion-button icon-only offset-20 width-20  (click)="dthKey('help')">
+        help
+      </ion-col>
+    </ion-row>
+    <br>
+    <br>
+
+  <div padding>
+    <button ion-button outline icon-only (click) = "numPad=!numPad">
+      <ion-icon name="keypad"></ion-icon>
+    </button>
+  </div>
+
+  <div *ngIf="numPad">  
+    <ion-row>
+      <ion-col ion-button width-33 color="light"  round (click)="dthKey('1')" > 1 </ion-col>
+      <ion-col ion-button width-33 color="light"  round (click)="dthKey('2')" > 2 </ion-col>
+      <ion-col ion-button width-33 color="light"  round (click)="dthKey('3')" > 3 </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col ion-button width-33 color="light"  round (click)="dthKey('4')" > 4 </ion-col>
+      <ion-col ion-button width-33 color="light"  round (click)="dthKey('5')" > 5 </ion-col>
+      <ion-col ion-button width-33 color="light"  round (click)="dthKey('6')" > 6 </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col ion-button width-33 color="light" (click)="dthKey('7')" round > 7 </ion-col>
+      <ion-col ion-button width-33 color="light" (click)="dthKey('8')" round > 8 </ion-col>
+      <ion-col ion-button width-33 color="light" (click)="dthKey('9')" round > 9 </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col ion-button offset-33 width-33  color="light"  round (click)="dthKey('0')" > 0   </ion-col>
+    </ion-row>
+  </div>
+
+  </ion-grid>
 </ion-content>
