@@ -14,5 +14,166 @@
 
 
 <ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col ion-button icon-only  width-25 color="danger" (click)="musicKey('power')">
+        <ion-icon name="power"></ion-icon>
+      </ion-col>
+
+      <ion-col ion-button icon-only width-25 color = "light" (click)="musicKey('stop')">
+        <ion-icon name="pause"></ion-icon>
+      </ion-col>
+
+      <ion-col ion-button icon-only width-25 color = "light" (click)="musicKey('play')">
+        <ion-icon name="play"></ion-icon>
+      </ion-col>
+
+      <ion-col ion-button icon-only width-25 color = "light" (click)="musicKey('mute')">
+        <ion-icon name="volume-mute"></ion-icon>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col ion-button icon-only  width-25 color="light" (click)="musicKey('repeat')">
+        repeat
+      </ion-col>
+
+      <ion-col ion-button icon-only width-25 color = "light" (click)="musicKey('previous')">
+        prev
+      </ion-col>
+
+      <ion-col ion-button icon-only width-25 color = "light" (click)="musicKey('next')">
+        next
+      </ion-col>
+
+      <ion-col ion-button icon-only width-25 color = "light" (click)="musicKey('equilizer')">
+        equil
+      </ion-col>
+    </ion-row>
+    <br>
+
+    <ion-row>
+      <ion-col ion-button round icon-only  width-33 color = "light" (click)="musicKey('cen+')">
+        cen+
+      </ion-col>
+
+      <ion-col ion-button round icon-only  width-33 color = "secondary" (click)="musicKey('vol+')">
+        <ion-icon name = "arrow-dropup-circle" >VOL </ion-icon>
+      </ion-col>
+
+      <ion-col ion-button round icon-only  width-33 color = "light" (click)="musicKey('surr+')">
+        surr+
+      </ion-col>
+
+    </ion-row>
+
+    <ion-row>
+      <ion-col ion-button round icon-only  width-33 color = "primary" (click)="musicKey('sub+')">
+        <ion-icon name = "arrow-dropleft-circle" >SUB+</ion-icon>
+      </ion-col>
+      <ion-col ion-button round icon-only  width-33 color = "light" (click)="musicKey('2.1ch/5.1ch')">
+        2.1ch/5.1ch
+      </ion-col>
+      <ion-col ion-button round icon-only  width-33 color = "primary" (click)="musicKey('sub-')">
+        <ion-icon name = "arrow-dropright-circle" >SUB-</ion-icon>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col ion-button round icon-only  width-33 color = "light" (click)="musicKey('cen-')">
+        cen-
+      </ion-col>
+      <ion-col ion-button round icon-only  width-33 color = "secondary" (click)="musicKey('vol-')">
+        <ion-icon name = "arrow-dropdown-circle" >VOL </ion-icon>
+      </ion-col>
+      <ion-col ion-button round icon-only  width-33 color = "light" (click)="musicKey('surr-')">
+        surr-
+      </ion-col>
+    </ion-row>
+
+    <br>
+    <ion-row>
+      <ion-col ion-button round icon-only  width-33 color = "light" (click)="musicKey('front-')">
+        front-
+      </ion-col>
+      <ion-col ion-button round icon-only  width-33 color = "light" (click)="musicKey('usb/sd')">
+        usb/sd
+      </ion-col>
+      <ion-col ion-button round icon-only  width-33 color = "light" (click)="musicKey('front+')">
+        front+
+      </ion-col>
+    </ion-row>
+    <br>
+
+    <ion-row>
+      <ion-col ion-button icon-only  width-25 color="light" (click)="musicKey('fm')">
+        fm
+      </ion-col>
+
+      <ion-col ion-button icon-only width-25 color = "light" (click)="musicKey('aux')">
+        aux
+      </ion-col>
+
+      <ion-col ion-button icon-only width-25 color = "light" (click)="musicKey('dvd')">
+        dvd
+      </ion-col>
+
+      <ion-col ion-button icon-only width-25 color = "light" (click)="musicKey('mem')">
+        mem
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col ion-button icon-only  width-25 color="light" (click)="musicKey('ch-')">
+        ch-
+      </ion-col>
+
+      <ion-col ion-button icon-only width-25 color = "light" (click)="musicKey('ch+')">
+        ch+
+      </ion-col>
+
+      <ion-col ion-button icon-only width-25 color = "light" (click)="musicKey('tune-')">
+        tune-
+      </ion-col>
+
+      <ion-col ion-button icon-only width-25 color = "light" (click)="musicKey('tune+')">
+        tune+
+      </ion-col>
+    </ion-row>
+
+    <div padding>
+      <button ion-button outline icon-only (click) = "numPad=!numPad">
+        <ion-icon name="keypad"></ion-icon>
+      </button>
+    </div>
+
+    <div *ngIf="numPad">
+      <ion-row>
+        <ion-col ion-button width-33 color="light"  round (click)="musicKey('1')" > 1 </ion-col>
+        <ion-col ion-button width-33 color="light"  round (click)="musicKey('2')" > 2 </ion-col>
+        <ion-col ion-button width-33 color="light"  round (click)="musicKey('3')" > 3 </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col ion-button width-33 color="light"  round (click)="musicKey('4')" > 4 </ion-col>
+        <ion-col ion-button width-33 color="light"  round (click)="musicKey('5')" > 5 </ion-col>
+        <ion-col ion-button width-33 color="light"  round (click)="musicKey('6')" > 6 </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col ion-button width-33 color="light" (click)="musicKey('7')" round > 7 </ion-col>
+        <ion-col ion-button width-33 color="light" (click)="musicKey('8')" round > 8 </ion-col>
+        <ion-col ion-button width-33 color="light" (click)="musicKey('9')" round > 9 </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col ion-button width-33 color="light" (click)="musicKey('10+')" round > 10+ </ion-col>
+        <ion-col ion-button width-33 color="light" (click)="musicKey('0')"   round  > 0 </ion-col>
+        <ion-col ion-button width-33 color="light" (click)="musicKey('reset')" round > reset </ion-col>
+      </ion-row>
+    </div>
+
+
+  </ion-grid>
 
 </ion-content>

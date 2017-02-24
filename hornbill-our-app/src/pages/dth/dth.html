@@ -107,17 +107,16 @@
 
     <br>
     <ion-row>
-      <ion-col ion-button icon-only width-20 color="light" (click)="dthKey('favorite')">
+      <ion-col ion-button round icon-only width-20 color="light" (click)="dthKey('favorite')">
         fav
       </ion-col>
-      <ion-col ion-button icon-only offset-20 width-20 color="light" (click)="dthKey('back')">
+      <ion-col ion-button round  icon-only offset-20 width-20 color="light" (click)="dthKey('back')">
         back
       </ion-col>
-      <ion-col ion-button icon-only offset-20 width-20  (click)="dthKey('help')">
+      <ion-col ion-button round icon-only offset-20 width-20  (click)="dthKey('help')">
         help
       </ion-col>
     </ion-row>
-    <br>
     <br>
 
   <div padding>
@@ -126,7 +125,7 @@
     </button>
   </div>
 
-  <div *ngIf="numPad">  
+  <div *ngIf="numPad">
     <ion-row>
       <ion-col ion-button width-33 color="light"  round (click)="dthKey('1')" > 1 </ion-col>
       <ion-col ion-button width-33 color="light"  round (click)="dthKey('2')" > 2 </ion-col>

@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import  DthKeyData  from '../../data/dthTataSky';
+import { BLE } from 'ionic-native';
+
 
 /*
   Generated class for the Dth page.
@@ -31,7 +33,8 @@ export class DthPage {
     for(let key of DthKeyData){
       if(key.functionname === keyPressed)
       {
-        console.log(key);
+        console.log(key.function);
+        console.log(parseInt("0x"+ key.function));
       }
     }
   }

@@ -1,12 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import musicKeyData from '../../data/musicIntex';
 
-/*
-  Generated class for the Music page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
 @Component({
   selector: 'page-music',
   templateUrl: 'music.html'
@@ -16,7 +11,19 @@ export class MusicPage {
   constructor(public navCtrl: NavController, public navParams: NavParams) {}
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad MusicPage');
+
   }
+
+  musicKey(keyPressed:string){
+    for(let key of musicKeyData){
+      if(key.functionname === keyPressed)
+      {
+        console.log(keyPressed +"\t");
+        console.log(key.function);
+        //console.log(parseInt("0x"+ key.function));
+      }
+    }
+  }
+
 
 }
