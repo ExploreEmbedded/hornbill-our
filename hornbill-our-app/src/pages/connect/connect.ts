@@ -28,31 +28,31 @@ export class ConnectPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ConnectPage');
+    //console.log('ionViewDidLoad ConnectPage');
   }
 
   startScanning(){
-    console.log("Scanning Started");
+    //console.log("Scanning Started");
     BLE.scan([],2).subscribe(device => {
         //this.devices.push = device;
-        console.log(JSON.stringify(device));
-        console.log(device.name);
+      //  console.log(JSON.stringify(device));
+      //  console.log(device.name);
         this.devices.push(device);
         //this.stopScanning();
     });
   }
 
   selectDevice(deviceId:string){
-    console.log("trying to connect");
+  //  console.log("trying to connect");
     BLE.connect(deviceId).subscribe(peripheralData => {
-        console.log(peripheralData);
+        //console.log(peripheralData);
         //this.deviceServices = peripheralData.services;
       //  console.log(this.deviceServices);
       this.HORNBILL_OUR_ID = deviceId;
       this.onClose(true);
       },
       peripheralData => {
-        console.log('disconnected');
+        //console.log('disconnected');
         this.onClose(false);
       });
   }

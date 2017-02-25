@@ -7,7 +7,14 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>dth</ion-title>
+    <ion-title>
+      <ion-icon name="{{deviceData.icon}}"> </ion-icon>
+      {{deviceData.name}}
+      <br>
+      <small>
+        Hornbill OUR
+      </small>
+    </ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -69,7 +76,7 @@
         <ion-icon name = "arrow-dropup-circle" > </ion-icon>
       </ion-col>
       <ion-col ion-button icon-only offset-20 width-20 color = "secondary" (click)="dthKey('ch+')">
-        <ion-icon name = "remove-circle" > </ion-icon>
+        <ion-icon name = "add-circle" > </ion-icon>
       </ion-col>
     </ion-row>
 
@@ -95,7 +102,7 @@
 
     <ion-row>
       <ion-col ion-button icon-only  width-20 color = "secondary" (click)="dthKey('vol-')">
-        <ion-icon name = "add-circle" > </ion-icon>
+        <ion-icon name = "remove-circle" > </ion-icon>
       </ion-col>
       <ion-col ion-button round icon-only offset-20 width-20 color = "light" (click)="dthKey('down')">
         <ion-icon name = "arrow-dropdown-circle" > </ion-icon>

@@ -2,14 +2,8 @@ import { Component} from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { BLE } from 'ionic-native';
 import {ConnectPage} from '../connect/connect';
+import tvKeysData from '../../data/tvVu';
 
-
-/*
-  Generated class for the Tv page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
 
 
 @Component({
@@ -20,13 +14,7 @@ import {ConnectPage} from '../connect/connect';
 export class TvPage {
 
   //this data needs to be fetched from http api.
-  
-  public tvKeys:{functionname:string,protocol:string,function:number}[]=[
-    {"functionname":"vol+", "protocol":"NEC", "function":0x28d7},
-    {"functionname":"vol-", "protocol":"NEC", "function":0x28d9},
-    {"functionname":"ch+", "protocol":"NEC", "function":0x28e0},
-    {"functionname":"ch-", "protocol":"NEC", "function":0x28e1},
-  ];
+
 
   private tvData = []; //details about the TV
   public HORNBILL_OUR_ID:string;
@@ -43,22 +31,27 @@ export class TvPage {
   }
 
   ionViewDidLoad() {
-    console.log(this.tvData);
-    console.log(this.HORNBILL_OUR_ID);
+    //console.log(this.tvData);
+    //console.log(this.HORNBILL_OUR_ID);
   }
 
-  tvKey(value:string){
-      var newPack = new Uint8Array(2);
-      for(let data of this.tvKeys){
-          if(data["functionname"] === value){
-            console.log("protocol" + data.protocol+ " value "+data.function);
-            //data[0] = direction;
-            newPack[0] = data.function & 255;
-            newPack[1] = (data.function >> 8) & 255;
-            console.log(newPack.buffer);
-            BLE.write(this.HORNBILL_OUR_ID, this.HORNBILL_OUR_SERVICE, this.HORNBILL_OUR_CHARACTERISTICS, newPack.buffer);
-          }
+  tvKey(keyPressed:string){
+    //console.log(keyPressed);
+
+    for(let key of tvKeysData){
+      var newPack = new Uint8Array(4);
+      if(key.functionname === keyPressed)
+      {
+        //console.log(key.function);
+        //console.log(parseInt("0x"+ key.function));
+        newPack[0] = parseInt("0x"+ key.function)& 255; //first byte
+        newPack[1] = (parseInt("0x"+ key.function)>>8)& 255; //second byte
+        newPack[2] = (parseInt("0x"+ key.function)>>16)& 255; // third byte
+        newPack[3] = 0; //ToDo: can be moved to  a services page and assigned dynamically.
+        //console.log(newPack.buffer);
+        BLE.write(this.HORNBILL_OUR_ID, this.HORNBILL_OUR_SERVICE, this.HORNBILL_OUR_CHARACTERISTICS, newPack.buffer);
       }
+    }
   }
 
 

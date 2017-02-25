@@ -2,18 +2,17 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { RemotePage } from '../pages/remote/remote';
 import { TvPage } from '../pages/tv/tv';
 import { DthPage} from '../pages/dth/dth';
 import { MusicPage } from '../pages/music/music';
 import { ConnectPage } from '../pages/connect/connect';
+import { HornbillBlueService } from './hornbill-blue.service';
 
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    RemotePage,
     DthPage,
     MusicPage,
     TvPage,
@@ -26,12 +25,11 @@ import { ConnectPage } from '../pages/connect/connect';
   entryComponents: [
     MyApp,
     HomePage,
-    RemotePage,
     DthPage,
     MusicPage,
     TvPage,
     ConnectPage
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
+  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, HornbillBlueService]
 })
 export class AppModule {}

@@ -7,6 +7,7 @@ import { DthPage } from '../dth/dth';
 import { ConnectPage } from '../connect/connect';
 import { BLE } from 'ionic-native';
 import { ModalController } from 'ionic-angular';
+import { HornbillBlueService } from '../../app/hornbill-blue.service';
 
 
 
@@ -20,14 +21,18 @@ export class HomePage {
   public connectStatus:boolean = false;  //check if the phone is connected to the bluetooth device
   public HORNBILL_DEVICE_ID:string = "";
 
+
+ // this can be moved to remoteServices page.
   public remotesList: { id: number, name: string, icon:string, protocolId:number, keysData:string }[] = [
       { "id": 0, "name": "TV", "icon": "easel" , "protocolId":1, "keysData":"", },
       { "id": 1, "name": "DTH", "icon": "md-square" ,"protocolId":0, "keysData":"",},
       { "id": 2, "name": "Music","icon": "md-musical-notes" , "protocolId":0, "keysData":"",}
   ];
 
-  constructor(public navCtrl: NavController, public alertCtrl: AlertController,private modalCtrl: ModalController,) {
+  constructor(private hornbillBlueService:HornbillBlueService, public navCtrl: NavController, public alertCtrl: AlertController,private modalCtrl: ModalController,) {
     //this.checkBluetooth();
+    //console.log(this.hornbillBlueService.getInfo());
+
   }
 
   //check if bluetooth is enabled on the device.
@@ -43,7 +48,7 @@ export class HomePage {
       {
         text: 'Okay',
         handler: () => {
-          console.log('Okay');
+          //console.log('Okay');
         }
       }]
       });
@@ -52,28 +57,13 @@ export class HomePage {
 
   // start scanning this should be moved to connect page
   startScanning(){
-    console.log("Scanning Started");
+    //console.log("Scanning Started");
     BLE.scan([],2).subscribe(device => {
-        //this.devices.push = device;
-        console.log(JSON.stringify(device));
-        console.log(device.name);
-
-        //this.devices.push(device);
-        //this.stopScanning();
     });
   }
 
 
 
-
-  addRemote(){
-      //this.remotesList.push({ "id": 3, "name": "HomeControl", "protocolId":0, "keysData":"",});
-
-  }
-
-  delRemote(){
-    //this.remotesList.splice(0,1);
-  }
 
 
  //handler for connect switch on home page.
@@ -81,24 +71,24 @@ export class HomePage {
 
     const modal = this.modalCtrl.create(ConnectPage);
     if(this.connectStatus){
-      console.log("disconnecting.....");
+      //console.log("disconnecting.....");
       this.connectStatus = false;
       // ToDo :disconnect ble later
     }
     else{
-      console.log("connecting.....");
+      //console.log("connecting.....");
       BLE.isEnabled().then(
         ()=>{
-            console.log("Bluetooth is enabled on device");
+            //console.log("Bluetooth is enabled on device");
             modal.present();
             modal.onDidDismiss((connectStatusReturned:boolean, deviceId:string) => {
-                console.log("deviceid returned "+ deviceId);
+                //console.log("deviceid returned "+ deviceId);
                 this.HORNBILL_DEVICE_ID = deviceId;
                 this.connectStatus = connectStatusReturned;
             });
         },
         ()=>{
-            console.log("show message to user");
+        //    console.log("show message to user");
             this.showConfirm();
         }
       );
@@ -116,10 +106,10 @@ export class HomePage {
         this.navCtrl.push(TvPage, {remotesList:this.remotesList[id], deviceId:this.HORNBILL_DEVICE_ID});
         break;
       case 1:
-        this.navCtrl.push(DthPage, this.remotesList[id]);
+        this.navCtrl.push(DthPage, {remotesList:this.remotesList[id], deviceId:this.HORNBILL_DEVICE_ID});
         break;
       case 2:
-        this.navCtrl.push(MusicPage, this.remotesList[id]);
+        this.navCtrl.push(MusicPage, {remotesList:this.remotesList[id], deviceId:this.HORNBILL_DEVICE_ID});
         break;
 
     }
