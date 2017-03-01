@@ -108,7 +108,8 @@ gatts_demo.o: \
  /home/sandeep/esp32_bm/esp-idf/components/bt/bluedroid/api/include/esp_gatts_api.h \
  /home/sandeep/esp32_bm/esp-idf/components/bt/bluedroid/api/include/esp_gatt_defs.h \
  /home/sandeep/esp32_bm/esp-idf/components/bt/bluedroid/api/include/esp_bt_defs.h \
- /home/sandeep/esp32_bm/esp-idf/components/bt/bluedroid/api/include/esp_bt_main.h
+ /home/sandeep/esp32_bm/esp-idf/components/bt/bluedroid/api/include/esp_bt_main.h \
+ /home/sandeep/apps/hornbill-our/hornbill-our-firmware/main/./nec.h
 
 /home/sandeep/esp32_bm/esp-idf/components/newlib/include/stdio.h:
 
@@ -327,3 +328,5 @@ gatts_demo.o: \
 /home/sandeep/esp32_bm/esp-idf/components/bt/bluedroid/api/include/esp_bt_defs.h:
 
 /home/sandeep/esp32_bm/esp-idf/components/bt/bluedroid/api/include/esp_bt_main.h:
+
+/home/sandeep/apps/hornbill-our/hornbill-our-firmware/main/./nec.h:

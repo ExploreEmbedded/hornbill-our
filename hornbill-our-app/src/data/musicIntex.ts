@@ -1,3 +1,5 @@
+//device address 807F
+
 export default [
  {
    "function": "28D7",

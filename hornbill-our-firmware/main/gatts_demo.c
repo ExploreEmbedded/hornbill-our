@@ -30,8 +30,11 @@
 #include "esp_bt_main.h"
 
 #include "sdkconfig.h"
+#include "nec.h"
+
 
 #define GATTS_TAG "GATTS_DEMO"
+
 
 ///Declare the static function
 static void gatts_profile_a_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param);
@@ -57,12 +60,14 @@ void sendIR(uint32_t data){
 
     switch((data>>24))
     {
-      case 0 : printf("tv: "); break;
+      case 0 : printf("\n\r tv: ");   necSend(0x10ef, data); break;
       case 1 : printf("dth: "); break;
-      case 2 : printf("music: "); break;
+      case 2 : printf("\n\r music: "); necSend(0x807f, data); break;
+      default: break;
     }
 
-    printf("send IR signal out: %x\n\r", data);
+  //  printf("send IR signal out: %x\n\r", data);
+
 }
 
 uint8_t char1_str[] = {0x11,0x22,0x33};
@@ -410,6 +415,8 @@ void app_main()
 {
     esp_err_t ret;
 
+    rmt_tx_init();
+
     esp_bt_controller_init();
 
     ret = esp_bluedroid_init();
@@ -422,6 +429,7 @@ void app_main()
         ESP_LOGE(GATTS_TAG, "%s enable bluetooth failed\n", __func__);
         return;
     }
+
 
     esp_ble_gatts_register_callback(gatts_event_handler);
     esp_ble_gap_register_callback(gap_event_handler);
