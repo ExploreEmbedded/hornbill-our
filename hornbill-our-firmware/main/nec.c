@@ -241,47 +241,39 @@ static int nec_build_items(int channel, rmt_item32_t* item, int item_num, uint16
 /*
  * @brief RMT transmitter initialization
  */
-void rmt_tx_init()
+
+
+//change configuration, accet init function with a parameter
+
+static void changeTxConfig()
 {
-    rmt_config_t rmt_tx;
-    rmt_tx.channel = RMT_TX_CHANNEL;
-    rmt_tx.gpio_num = RMT_TX_GPIO_NUM;
-    rmt_tx.mem_block_num = 1;
-    rmt_tx.clk_div = RMT_CLK_DIV;
-    rmt_tx.tx_config.loop_en = false;
-    rmt_tx.tx_config.carrier_duty_percent = 50;
-    rmt_tx.tx_config.carrier_freq_hz = 38000;
-    rmt_tx.tx_config.carrier_level = 1;
-    rmt_tx.tx_config.carrier_en = RMT_TX_CARRIER_EN;
-    rmt_tx.tx_config.idle_level = 0;
-    rmt_tx.tx_config.idle_output_en = true;
-    rmt_tx.rmt_mode = 0;
-    rmt_config(&rmt_tx);
-    rmt_driver_install(rmt_tx.channel, 0, 0);
+  rmt_config_t rmt_tx;
+  rmt_tx.channel = RMT_TX_CHANNEL;
+  rmt_tx.gpio_num = RMT_TX_GPIO_NUM;
+  rmt_tx.mem_block_num = 1;
+  rmt_tx.clk_div = RMT_CLK_DIV;
+  rmt_tx.tx_config.loop_en = false;
+  rmt_tx.tx_config.carrier_duty_percent = 50;
+  rmt_tx.tx_config.carrier_freq_hz = 38000;
+  rmt_tx.tx_config.carrier_level = 1;
+  rmt_tx.tx_config.carrier_en = RMT_TX_CARRIER_EN;
+  rmt_tx.tx_config.idle_level = 0;
+  rmt_tx.tx_config.idle_output_en = true;
+  rmt_tx.rmt_mode = 0;
+  rmt_config(&rmt_tx);
 }
+
 
 /*
  * @brief RMT receiver initialization
  */
-void rmt_rx_init()
-{
-    rmt_config_t rmt_rx;
-    rmt_rx.channel = RMT_RX_CHANNEL;
-    rmt_rx.gpio_num = RMT_RX_GPIO_NUM;
-    rmt_rx.clk_div = RMT_CLK_DIV;
-    rmt_rx.mem_block_num = 1;
-    rmt_rx.rmt_mode = RMT_MODE_RX;
-    rmt_rx.rx_config.filter_en = true;
-    rmt_rx.rx_config.filter_ticks_thresh = 100;
-    rmt_rx.rx_config.idle_threshold = rmt_item32_tIMEOUT_US / 10 * (RMT_TICK_10_US);
-    rmt_config(&rmt_rx);
-    rmt_driver_install(rmt_rx.channel, 1000, 0);
-}
+
 
 void necSend(uint16_t addr, uint16_t data)
 {
       printf(" address: %x \t data %x", addr, data);
 
+      changeTxConfig();
     //  ESP_LOGI(NEC_TAG, "RMT TX DATA");
       size_t size = (sizeof(rmt_item32_t) * NEC_DATA_ITEM_NUM * 1);
       //each item represent a cycle of waveform.

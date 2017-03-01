@@ -31,6 +31,7 @@
 
 #include "sdkconfig.h"
 #include "nec.h"
+#include "rc6.h"
 
 
 #define GATTS_TAG "GATTS_DEMO"
@@ -61,7 +62,7 @@ void sendIR(uint32_t data){
     switch((data>>24))
     {
       case 0 : printf("\n\r tv: ");   necSend(0x10ef, data); break;
-      case 1 : printf("dth: "); break;
+      case 1 : printf("dth: "); sendRC6(data, 24); break;
       case 2 : printf("\n\r music: "); necSend(0x807f, data); break;
       default: break;
     }
@@ -416,7 +417,6 @@ void app_main()
     esp_err_t ret;
 
     rmt_tx_init();
-
     esp_bt_controller_init();
 
     ret = esp_bluedroid_init();
