@@ -41,7 +41,7 @@ export default [
    },
    {
      "function": "C00021",
-     "functionname": "ch- "
+     "functionname": "ch-"
    },
    {
      "function": "C00081",

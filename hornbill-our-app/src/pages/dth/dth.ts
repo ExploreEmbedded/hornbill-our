@@ -32,14 +32,14 @@ export class DthPage {
   }
 
   dthKey(keyPressed:string){
-    //console.log(keyPressed);
+    console.log(keyPressed);
 
     for(let key of DthKeyData){
       var newPack = new Uint8Array(4);
       if(key.functionname === keyPressed)
       {
-        //console.log(key.function);
-        //console.log(parseInt("0x"+ key.function));
+        console.log(key.function);
+        console.log(parseInt("0x"+ key.function));
         newPack[0] = parseInt("0x"+ key.function)& 255; //first byte
         newPack[1] = (parseInt("0x"+ key.function)>>8)& 255; //second byte
         newPack[2] = (parseInt("0x"+ key.function)>>16)& 255; // third byte

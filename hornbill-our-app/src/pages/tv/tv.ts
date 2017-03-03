@@ -36,7 +36,7 @@ export class TvPage {
   }
 
   tvKey(keyPressed:string){
-    //console.log(keyPressed);
+    console.log(keyPressed);
 
     for(let key of tvKeysData){
       var newPack = new Uint8Array(4);
