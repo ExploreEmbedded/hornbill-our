@@ -1,0 +1,4 @@
+(fp_lib_table
+  (lib (name Explore)(type KiCad)(uri H:\Github\Exploreembedded_Kicad_Library-\ExploreEmbedded.pretty-master)(options "")(descr ""))
+  (lib (name Logo)(type KiCad)(uri H:\Github\Exploreembedded_Kicad_Library-\Exploreembedded_Logo.pretty)(options "")(descr ""))
+)
