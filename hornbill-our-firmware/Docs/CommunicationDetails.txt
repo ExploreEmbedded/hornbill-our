@@ -1,0 +1,14 @@
+Communication between FW and app:
+App will share the hex format of pronto code for key pressed on remote.
+Data is shared in packets of size 18 byte.
+
+Packet Format:
+          LSB                    MSB
+byte    |  00  |  01    | 02......17 |
+data    | flag | length |    data    |
+
+Description:
+flag: 0 -> start of new key code
+      1 -> continued key code
+      
+length: number of codes in pronto code of the key pressed
