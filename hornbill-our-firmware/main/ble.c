@@ -34,6 +34,7 @@
 #include "sdkconfig.h"
 #include "ble.h"
 
+int codeLen=0;
 //Declare the static function
 static void gatts_profile_a_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param);
 
@@ -42,8 +43,8 @@ static void gatts_profile_a_event_handler(esp_gatts_cb_event_t event, esp_gatt_i
 #define FLAG_INDEX      0
 #define LENGTH_INDEX    1
 
+bool receiveFlag;
 unsigned int code[RMT_MAX_IR_CODES];
-
 uint8_t char1_str[] = {0x11,0x22,0x33};
 esp_attr_value_t gatts_demo_char1_val =
 {
@@ -162,6 +163,7 @@ void gap_event_handler(esp_gap_ble_cb_event_t event, esp_ble_gap_cb_param_t *par
         }
         break;
     case ESP_GAP_BLE_UPDATE_CONN_PARAMS_EVT:
+        printf("\nDevice Connected");
         ESP_LOGI(GATTS_TAG, "update connetion params status = %d, min_int = %d, max_int = %d,conn_int = %d,latency = %d, timeout = %d",
         param->update_conn_params.status,
         param->update_conn_params.min_int,
@@ -394,25 +396,53 @@ void gatts_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp
 
 void extract_pronto_code(uint8_t *data)
 {
-    printf("\n%s", __func__);
-
     bool flag = data[FLAG_INDEX];
     uint8_t len = data[LENGTH_INDEX];
     static uint8_t index = 0;
     
-    if (!flag){
+    if (!flag)
+    {
         // reset for new code
         index = 0;
     }
     
-    for(int i = LENGTH_INDEX+1; i < PACKET_SIZE; i += 2){
+    for(int i = LENGTH_INDEX+1; i < PACKET_SIZE; i += 2)
+    {
         code[index++] = (data [i]<< 8) | data [i+1];
-        printf("\n i:%2d code[%d]: 0x%x", i, index-1, code[index-1]);
         
-        if(index == len){
+        if(index == len)
+        {
             // all packets are received, generate waveform
-            ir_send_pronto(code);
+            receiveFlag = 1;
+            codeLen = len;
             break;
         }
+    }
+}
+
+unsigned int rawCode[] = {9024,4512,564,564,564,564,564,564,564,564,564,564,564,564,564,564,564,564,564,1692,564,1692,564,1692,564,1692,564,1692,564,1692,564,564,564,1692,564,1692,564,564,564,564,564,564,564,564,564,564,564,564,564,564,564,564,564,1692,564,1692,564,1692,564,1692,564,1692,564,1692,564,1692,564,40884};
+
+void ir_Remote_task(void *param) 
+{
+    ir_rx_init();
+    ir_tx_init(38000);
+    
+    while(1) 
+    {
+        printf("\n%s", __func__);
+        
+        if(receiveFlag)
+        {
+            receiveFlag = 0;
+            printf("\nIr Code received");
+            for(int i=0;i<codeLen;i++)
+            {
+                printf("\n[%2d]-%d",i,code[i]);
+            }
+            
+            ir_send_pronto(code);
+            printf("\nDone Sending");            
+        }
+        vTaskDelay(1000 / portTICK_RATE_MS);
     }
 }

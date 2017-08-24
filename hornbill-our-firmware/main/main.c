@@ -7,7 +7,10 @@
 
 //hornbill our files
 #include "ble.h"
-   
+extern bool receiveFlag;
+extern unsigned int code[RMT_MAX_IR_CODES];
+
+
 
 void app_main()
 {
@@ -39,4 +42,15 @@ void app_main()
     esp_ble_gatts_register_callback(gatts_event_handler);
     esp_ble_gap_register_callback(gap_event_handler);
     esp_ble_gatts_app_register(PROFILE_A_APP_ID);
+    
+    receiveFlag = 0;
+
+#ifdef CONFIG_MBEDTLS_DEBUG
+    const size_t stack_size = 36*1024;
+#else
+    const size_t stack_size = 36*1024;
+#endif
+
+    xTaskCreatePinnedToCore(&ir_Remote_task, "ir_Remote_task", stack_size, NULL, 4, NULL, 1);
+
 }   

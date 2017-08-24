@@ -12,17 +12,13 @@
 #include "esp32_rmt.h"
 #include "freertos/ringbuf.h"
 
-
-
 RingbufHandle_t rb = NULL;
-
-unsigned int rawCode[] = {9024,4512,564,564,564,564,564,564,564,564,564,564,564,564,564,564,564,564,564,1692,564,1692,564,1692,564,1692,564,1692,564,1692,564,564,564,1692,564,1692,564,564,564,564,564,564,564,564,564,564,564,564,564,564,564,564,564,1692,564,1692,564,1692,564,1692,564,1692,564,1692,564,1692,564,40884};
-char prontoCode[] = "0000 006C 0022 0002 015B 00AD 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0016 0016 0041 0016 0041 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0041 0016 0622 015B 0057 0016 0E6C";
-
 
 void ir_fill_item_level(rmt_item32_t* item, int high_us, int low_us)
 {
-    //   printf("\n\r send RMT_TICK_10_US: %d high_us: %d  low_us: %d", RMT_TICK_10_US, high_us, low_us);
+    #if RMT_DEBUG_ENABLE
+    printf("\nhigh_us:%d  low_us:%d", high_us, low_us);
+    #endif
 
     item->level0 = 1;
     item->duration0 = (high_us/RMT_RX_MULT_FACTOR);
@@ -33,8 +29,10 @@ void ir_fill_item_level(rmt_item32_t* item, int high_us, int low_us)
 
 void ir_rx_init()
 {
+    #if RMT_DEBUG_ENABLE
     printf("\n %s , ClockDiv:%d", __func__, RMT_CLK_DIV);
-
+    #endif
+    
     rmt_channel_t rxChannel = (rmt_channel_t)RMT_RX_CHANNEL;
     rmt_config_t rmt_rx;
     rmt_rx.channel = rxChannel;
@@ -53,17 +51,26 @@ void ir_rx_init()
     rmt_driver_install(rxChannel, 1000, 0);
     rmt_get_ringbuf_handler(rxChannel, &rb);
     rmt_rx_start(rxChannel, 1);
-    
-    printf("\n %s end", __func__);
 }
 
+void ir_tx_init(unsigned int hz)
+{
+    #if RMT_DEBUG_ENABLE
+    printf("\n %s ", __func__);
+    #endif
+    
+    ir_set_tx_freq(hz);
+    rmt_driver_install((rmt_channel_t)RMT_TX_CHANNEL, 1000, RMT_INTR_NUM);
 
+}
 
 
 void ir_set_tx_freq(unsigned int hz)
 {
-    printf("\n %s ", __func__);
-
+    #if RMT_DEBUG_ENABLE
+    printf("\n %s hz: %d", __func__, hz);
+    #endif
+    
     rmt_config_t rmt_tx;
     rmt_tx.channel = (rmt_channel_t)RMT_TX_CHANNEL;
     rmt_tx.gpio_num =(gpio_num_t) RMT_TX_PIN;
@@ -74,47 +81,46 @@ void ir_set_tx_freq(unsigned int hz)
     rmt_tx.tx_config.loop_en = false;
     rmt_tx.tx_config.carrier_duty_percent = 50;
     rmt_tx.tx_config.carrier_freq_hz = hz;
-    rmt_tx.tx_config.carrier_level = (rmt_carrier_level_t)1;
+    rmt_tx.tx_config.carrier_level = RMT_CARRIER_LEVEL_HIGH;
     rmt_tx.tx_config.carrier_en = RMT_TX_CARRIER_EN;
-    rmt_tx.tx_config.idle_level = (rmt_idle_level_t)0;
+    rmt_tx.tx_config.idle_level = RMT_IDLE_LEVEL_LOW;
     rmt_tx.tx_config.idle_output_en = true;
-    rmt_config(&rmt_tx);
-    rmt_driver_install(rmt_tx.channel, 0, RMT_INTR_NUM);
     
-    printf("\n %s end", __func__);
+    rmt_config(&rmt_tx);    
 }
 
-
+//ToDo: MARK and SPACE generated with this are sometimes beyond tolerance limit
+// tolerance is +/- 10% of carrier freq.
 
 void ir_send_raw(const unsigned int buff[], unsigned int len, unsigned int freq)
 {
+    #if RMT_DEBUG_ENABLE
     printf("\n %s ", __func__);
-
-    ir_set_tx_freq(freq*1000);
+    #endif
+    
+    ir_set_tx_freq(freq);
     
     rmt_channel_t txChannel = (rmt_channel_t) RMT_TX_CHANNEL;
     int nec_tx_num = RMT_TX_DATA_NUM;
 
-    size_t size = (sizeof(rmt_item32_t) * len * nec_tx_num);
-    rmt_item32_t* item = (rmt_item32_t*) malloc(size);
     int item_num = len * nec_tx_num;
-    memset((void*) item, 0, size);
+    size_t size = (sizeof(rmt_item32_t) * item_num);
+    
+    rmt_item32_t* item = (rmt_item32_t*) malloc(size);
+    memset((void*) item, 0, size); 
     
     for(int i=0;i<len/2;i++)
     {
         ir_fill_item_level(item+i,buff[i*2],buff[i*2+1]);
-    }
+    } 
 
     //To send data according to the waveform items.
     rmt_write_items(txChannel, item, item_num, true);
+    
     //Wait until sending is done.
     rmt_wait_tx_done(txChannel);
     //before we free the data, make sure sending is already done.
     free(item);
-    
-    rmt_driver_uninstall(txChannel);
-    
-    printf("\n %s end", __func__);    
 }
 
 
@@ -123,8 +129,10 @@ void ir_send_codes_from_string(char *irCodes)
     unsigned int num=0,val=0,numSystem=10,i,index=0;
     unsigned int irTimings[RMT_MAX_IR_CODES];
 
+    #if RMT_DEBUG_ENABLE
     printf("\n %s ", __func__);
-
+    #endif
+    
     for(i=0;irCodes[i];i++)
     {
         val = irCodes[i];
@@ -158,40 +166,43 @@ void ir_send_codes_from_string(char *irCodes)
 
 void ir_send_pronto(unsigned int prontoCode[])
 {   
+    #if RMT_DEBUG_ENABLE
     printf("\n*%s", __func__);
-    
-    uint8_t index = 0; 
+    #endif
     
     // Check mode = Oscillated/Learned
-    if (prontoCode[index++] != 0x0000)  return ;
+    if (prontoCode[0] != 0x0000)  return ;
     
-    uint16_t freq = (int)(1000000 / (prontoCode[index++] * 0.241246));  // Rounding errors will occur, tolerance is +/- 10%
-    uint8_t usec = (int)(((1.0 / freq) * 1000000) + 0.5);
-    uint8_t once = prontoCode[index++];
-    uint8_t rpt = prontoCode[index++];
+    uint16_t freq = (int)(1000000 / (prontoCode[1] * 0.241246));  // Rounding errors will occur, tolerance is +/- 10%
+    uint8_t usec = (int)((1000000.0/(float)freq) + 0.5);
+    uint8_t once = prontoCode[2];
+    uint8_t rpt = prontoCode[3];
     
     // ToDo: consider fallback and repeat case to calculate length and skip
-    uint8_t length = once * 2;
+    uint8_t length = once ? (once * 2) : (rpt * 2);
     //   uint8_t skip = 0;       // repeat = 0 and fallback = 0;
     
     // skip to start of code
     //  index += skip;
     
-    for (int i = index;  i < length;  i++) 
+    printf("freq: %d", freq);
+    
+    for (int i = 4;  i < length+4;  i++) 
     {
         prontoCode[i] *= usec;
     }
     
-    ir_send_raw(&prontoCode[index], length, freq);
-
+    ir_send_raw(&prontoCode[4], length, freq);
 }
 
 
 
 int ir_receive(uint32_t buff[])
 {
+    #if RMT_DEBUG_ENABLE
     printf("\n %s", __func__);
-
+    #endif
+    
     size_t rx_size = 0;
     int irCodeLength = 0;
     //try to receive data from ringbuffer.
@@ -209,57 +220,22 @@ int ir_receive(uint32_t buff[])
         {
             buff[i*2] = item->duration0*RMT_RX_MULT_FACTOR;
             buff[i*2+1] = item->duration1*RMT_RX_MULT_FACTOR;
-            printf( "\n %2d item->duration0: %d \t item->duration1: %d", i,item->duration0*RMT_RX_MULT_FACTOR ,item->duration1*RMT_RX_MULT_FACTOR );
-            item++;
 
+            #if RMT_DEBUG_ENABLE
+            printf( "\n %2d item->duration0: %d \t item->duration1: %d", i,item->duration0*RMT_RX_MULT_FACTOR ,item->duration1*RMT_RX_MULT_FACTOR );
+            #endif  
+            
+            item++;
         } 
         
         vRingbufferReturnItem(rb, (void*) item1);
-    }
-    else 
-    {
-        printf(" Data Not received");
-    }    
-    
-    printf("\n %s end", __func__);
+    }   
     
     return irCodeLength;
 }
 
 
 
-void ir_Remote_task(void *param) 
-{
-    unsigned int irReeciveCodes[RMT_MAX_IR_CODES];
-    int len = 0,txCount=0;
-    ir_rx_init();
-
-    while(1)
-    {
-        len = ir_receive(irReeciveCodes);
-        if(len>0)
-        {
-            printf("\n Received Ir Codes");
-            for(int i=0;i<len;i++)
-            printf("\n [%2d]-%d",i,irReeciveCodes[i]);
-        }
-        
-        txCount++;
-        if(txCount == 2)
-        {  
-            printf("\n Send Raw codes at 38K freq");    
-            ir_send_raw(rawCode,68,38);          
-        }
-        else if(txCount == 4)
-        {
-            txCount = 0; 
-            printf("\n Send Pronto Codes");              
-            ir_send_codes_from_string(prontoCode);             
-        }
-        
-        vTaskDelay(1000 / portTICK_RATE_MS);
-    }
-}
 
 
 
