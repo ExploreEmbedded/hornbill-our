@@ -34,7 +34,6 @@
 #include "sdkconfig.h"
 #include "ble.h"
 
-int codeLen=0;
 //Declare the static function
 static void gatts_profile_a_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble_gatts_cb_param_t *param);
 
@@ -43,6 +42,7 @@ static void gatts_profile_a_event_handler(esp_gatts_cb_event_t event, esp_gatt_i
 #define FLAG_INDEX      0
 #define LENGTH_INDEX    1
 
+int codeLen=0;
 bool receiveFlag;
 unsigned int code[RMT_MAX_IR_CODES];
 uint8_t char1_str[] = {0x11,0x22,0x33};
@@ -95,8 +95,6 @@ static esp_ble_adv_params_t test_adv_params = {
     .adv_int_max        = 0x40,
     .adv_type           = ADV_TYPE_IND,
     .own_addr_type      = BLE_ADDR_TYPE_PUBLIC,
-    //.peer_addr            =
-    //.peer_addr_type       =
     .channel_map        = ADV_CHNL_ALL,
     .adv_filter_policy = ADV_FILTER_ALLOW_SCAN_ANY_CON_ANY,
 };
@@ -223,12 +221,17 @@ void example_write_event_env(esp_gatt_if_t gatts_if, prepare_type_env_t *prepare
 }
 
 void example_exec_write_event_env(prepare_type_env_t *prepare_write_env, esp_ble_gatts_cb_param_t *param){
-    if (param->exec_write.exec_write_flag == ESP_GATT_PREP_WRITE_EXEC){
+    if (param->exec_write.exec_write_flag == ESP_GATT_PREP_WRITE_EXEC)
+	{
         esp_log_buffer_hex(GATTS_TAG, prepare_write_env->prepare_buf, prepare_write_env->prepare_len);
-    }else{
+    }
+	else
+	{
         ESP_LOGI(GATTS_TAG,"ESP_GATT_PREP_WRITE_CANCEL");
     }
-    if (prepare_write_env->prepare_buf) {
+	
+    if (prepare_write_env->prepare_buf) 
+	{
         free(prepare_write_env->prepare_buf);
         prepare_write_env->prepare_buf = NULL;
     }
@@ -420,29 +423,21 @@ void extract_pronto_code(uint8_t *data)
     }
 }
 
-unsigned int rawCode[] = {9024,4512,564,564,564,564,564,564,564,564,564,564,564,564,564,564,564,564,564,1692,564,1692,564,1692,564,1692,564,1692,564,1692,564,564,564,1692,564,1692,564,564,564,564,564,564,564,564,564,564,564,564,564,564,564,564,564,1692,564,1692,564,1692,564,1692,564,1692,564,1692,564,1692,564,40884};
-
 void ir_Remote_task(void *param) 
 {
     ir_rx_init();
     ir_tx_init(38000);
     
     while(1) 
-    {
-        printf("\n%s", __func__);
-        
+    {      
         if(receiveFlag)
         {
             receiveFlag = 0;
-            printf("\nIr Code received");
-            for(int i=0;i<codeLen;i++)
-            {
-                printf("\n[%2d]-%d",i,code[i]);
-            }
-            
-            ir_send_pronto(code);
+            printf("\nIr Code received");          
+            ir_send_pronto(code); 
             printf("\nDone Sending");            
-        }
-        vTaskDelay(1000 / portTICK_RATE_MS);
+        }      
+
+        vTaskDelay(80/ portTICK_RATE_MS);
     }
 }

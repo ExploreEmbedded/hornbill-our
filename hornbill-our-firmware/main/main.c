@@ -10,8 +10,6 @@
 extern bool receiveFlag;
 extern unsigned int code[RMT_MAX_IR_CODES];
 
-
-
 void app_main()
 {
     esp_err_t ret;
