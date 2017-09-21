@@ -3811,12 +3811,13 @@
     (pad "" smd circle (at -2.25044 -2.25044 180) (size 0.29972 0.29972) (layers F.Cu F.Paste F.Mask))
   )
 
-  (module OUR:Hornbill_OUR (layer F.Cu) (tedit 5902F222) (tstamp 59C27580)
+  (module Logo:Hornbill_OUR (layer F.Cu) (tedit 5902F222) (tstamp 59C2797C)
     (at 131.699 117.856)
-    (fp_text reference G*** (at 0 0) (layer F.SilkS) hide
+    (path /58D256B4)
+    (fp_text reference U3 (at 0 0) (layer F.SilkS) hide
       (effects (font (thickness 0.3)))
     )
-    (fp_text value LOGO (at 0.75 0) (layer F.SilkS) hide
+    (fp_text value EE_Logo (at 0.75 0) (layer F.SilkS) hide
       (effects (font (thickness 0.3)))
     )
     (fp_poly (pts (xy -10.468513 -0.164755) (xy -10.495923 -0.073567) (xy -10.549342 0.057415) (xy -10.62369 0.218416)
@@ -4744,8 +4745,8 @@
   (segment (start 104.013 96.139) (end 104.013 84.582) (width 0.508) (layer F.Cu) (net 2) (tstamp 59C278D6))
   (segment (start 104.013 84.582) (end 104.013 84.201) (width 0.508) (layer F.Cu) (net 2) (tstamp 59C278DA))
   (segment (start 104.267 96.393) (end 104.013 96.139) (width 0.508) (layer F.Cu) (net 2) (tstamp 59C278D5))
-  (segment (start 130.81 103.112) (end 128.071 103.112) (width 0.508) (layer F.Cu) (net 2) (status C00000))
-  (segment (start 128.071 103.112) (end 127.999 103.04) (width 0.508) (layer F.Cu) (net 2) (tstamp 59C278CC) (status C00000))
+  (segment (start 130.81 103.112) (end 128.071 103.112) (width 0.508) (layer F.Cu) (net 2))
+  (segment (start 128.071 103.112) (end 127.999 103.04) (width 0.508) (layer F.Cu) (net 2) (tstamp 59C278CC))
   (segment (start 120.142 79.756) (end 116.25076 79.756) (width 0.508) (layer F.Cu) (net 2))
   (segment (start 116.25076 79.756) (end 115.758 80.24876) (width 0.508) (layer F.Cu) (net 2) (tstamp 59C27875))
   (segment (start 119.38 74.041) (end 119.04 73.701) (width 0.508) (layer F.Cu) (net 2))
